@@ -1,0 +1,117 @@
+﻿<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>imersaoDev - Calculadora Simples</title>
+    <link rel ="stylesheet"  href="./style.css">
+  </head>
+  <body>
+    <main>
+      <section class="calculator">
+        <br>
+        <br>
+        <h1 class="namber" >CALCULADORA SIMPLES</h1>
+        <form name='screen'> 
+          <input class="result" name='result'disabled>
+        </form>  
+        <input type="button" class='calculation-button' onclick="addParameter(1)" value="1">
+        <input type="button" class='calculation-button' onclick="addParameter(2)" value="2">
+        <input type="button" class='calculation-button' onclick="addParameter(3)" value="3">
+        <input type="button" class='calculation-button' onclick="erase()" value="<<">
+        <input type="button" class='calculation-button' onclick="ce()" value="CE">
+        <input type="button" class='calculation-button' onclick="addParameter(4)" value="4">
+        <input type="button" class='calculation-button' onclick="addParameter(5)" value="5">
+        <input type="button" class='calculation-button' onclick="addParameter(6)" value="6">
+        <input type="button" class='calculation-button' onclick="addParameter('/')" value="÷">
+        <input type="button" class='calculation-button' onclick="addParameter('*')" value="x">
+        <input type="button" class='calculation-button' onclick="addParameter(7)" value="7">
+        <input type="button" class='calculation-button' onclick="addParameter(8)" value="8">
+        <input type="button" class='calculation-button' onclick="addParameter(9)" value="9">
+        <input type="button" class='calculation-button' onclick="addParameter('-')" value="-">
+        <input type="button" class='calculation-button' onclick="addParameter('+')" value="+">
+        <input type="button" class='calculation-button-zero' onclick="addParameter(0)" value="0">
+        <input type="button" class='calculation-button' onclick="addParameter('.')" value=".">
+        <input type="button" class='calculation-button-equal' onclick="addEqual()" value="=">
+      </section>
+      <p><img src="./leitao.png" width="90px" height="90px" class="image"><strong>Made With &#128153 by Gislaine Carvalho</strong></p>
+</main>
+<script>
+
+var cleanScreen = false;
+// Declaração da variável responsável por não repetir operadores
+var operator = false;
+// Declaração da variável responsável por não repetir pontos
+var point = false;
+// Declaração da variável responsável por não colcocar operadores e ponto no início da expressão
+var firstParameter = true;
+// Declaração da funçaõ responsável por adicionar elementos na estrutura de operação
+function addParameter(number) {
+  // condição responsável por verificar se já houve uma operação anteriormente para limpar a tela
+  if (cleanScreen == true && number != '/' && number != '*' && number != '+' && number != '-' && number != '.') {
+    ce();
+    cleanScreen = false;
+  }
+  // Condição responsável por verificar se foi selecionado operadores
+  if (number == '/' || number == '*' || number == '+' || number == '-') {
+    // Condição responsável por não haver repetição de operadores nem escrevê-los no início da expressão
+    if (operator == false && firstParameter == false) {
+      document.querySelector('.result').value = document.querySelector('.result').value + number;
+      operator = true;
+      point = false;
+      cleanScreen = false;
+    }
+    else if (operator == true || firstParameter == true) {
+      document.querySelector('.result').value = document.querySelector('.result').value;
+    }
+  }
+  // Condição responsável por não haver repetição de operadores nem escrevê-los no início da expressão
+  if (operator == true) {
+    document.querySelector('.result').value = document.querySelector('.result').value
+  }
+  // Condição responsável por não haver repetição de pontos nem escrevê-los no início da expressão
+  if (number == '.') {
+    if (point == false && firstParameter == false) {
+      document.querySelector('.result').value = document.querySelector('.result').value + number;
+      point = true;
+    }
+    else {
+      document.querySelector('.result').value = document.querySelector('.result').value;
+    }
+  }
+  // Condição responsável por adicionar números na expressão
+  if (number != '/' && number != '*' && number != '+' && number != '-' && number != '.') {
+    // responsável por montar a estrutura de operação de acordo com o valor do botão clicado
+    document.querySelector('.result').value = document.querySelector('.result').value + number;
+    firstParameter = false;
+  }
+}
+// Declaração da função que executa a operação já escrita
+function addEqual() {
+  var content = document.querySelector('.result').value;
+  // Se há conteúdo a função 'eval' executa a operação baseada nos números e no operador escolhido
+  if (content) {
+    document.querySelector('.result').value = eval(content);
+  }
+  // Atribui verdadeira a situação de operação executada para posteriormente limpar-se a tela
+  cleanScreen = true;
+  // Permite que operadores sejam utilizados novamente
+  operator = false;
+  // Permite que pontos sejam utilizados novamente
+  point = false;
+}
+// Declaração da função responsável por limpar a tela
+function ce() {
+  // limpa a expressão digitada na tela e zera a calculadora
+  document.querySelector('.result').value = "";
+  operator = false;
+  point = false;
+  firstParameter = true;
+}
+// Declaração da função apagar conteúdo
+function erase() {
+  var content = document.querySelector('.result').value;
+  // recebe o conteúdo da input e retira 1 caractere do seu comprimento
+  document.querySelector('.result').value = content.substring(0, content.length-1);
+}
+</script>
+  </body>
+</html>
